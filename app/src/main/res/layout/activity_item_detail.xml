@@ -4,6 +4,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="24"
     tools:context=".ItemDetail">
+
+    <TextView
+        android:id="@+id/tv_detail_itemname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Nama Barang" />
+
+    <TextView
+        android:id="@+id/tv_detail_jumlah"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:textColor="@color/yellow_secondary"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_detail_itemname"
+        tools:text="Jumlah : jumlah + satuan" />
+
+    <TextView
+        android:id="@+id/tv_detail_harga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/yellow_secondary"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_detail_jumlah"
+        tools:text="Harga : Rp 0.000,00" />
+
+    <Button
+        android:id="@+id/btn_detail_delete"
+        android:layout_width="0dp"
+        android:padding="12dp"
+        android:layout_height="wrap_content"
+        android:text="Hapus Barang"
+        android:backgroundTint="@color/red_light"
+        android:textColor="@color/red_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/btn_detail_edititem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tint="@color/yellow_secondary"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_detail_itemname"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_detail_itemname"
+        app:srcCompat="@drawable/round_edit_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
