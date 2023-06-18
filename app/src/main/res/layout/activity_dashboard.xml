@@ -28,7 +28,7 @@
         app:srcCompat="@drawable/baseline_location_24" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/image_dashboard_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="2dp"
@@ -47,12 +47,12 @@
         tools:text="69 items" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/image_dashboard_sort"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/tv_dashboard_itemcount"
-        app:layout_constraintEnd_toEndOf="@+id/imageView3"
-        app:layout_constraintStart_toStartOf="@+id/imageView3"
+        app:layout_constraintEnd_toEndOf="@+id/image_dashboard_profile"
+        app:layout_constraintStart_toStartOf="@+id/image_dashboard_profile"
         app:layout_constraintTop_toTopOf="@+id/tv_dashboard_itemcount"
         app:srcCompat="@drawable/round_sort_24" />
 
@@ -66,7 +66,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_dashboard_itemcount" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/btn_dashboard_additem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
