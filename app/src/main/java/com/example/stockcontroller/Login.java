@@ -1,5 +1,7 @@
 package com.example.stockcontroller;
 
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -7,12 +9,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private EditText etEmail, etPassword;
     private Button btnMasuk;
     private TextView btnDaftar, btnForgotPassword;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +32,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         etEmail = findViewById(R.id.et_login_email);
         etPassword = findViewById(R.id.et_login_password);
 
-        btnMasuk  = findViewById(R.id.btn_login);
+        btnMasuk  = (Button)  findViewById(R.id.btn_login);
         btnDaftar = findViewById(R.id.tv_login_signin);
         btnForgotPassword = findViewById(R.id.tv_login_forgot_password);
 
@@ -34,15 +43,27 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (v == btnMasuk) {
+        String email, password;
+        email = etEmail.getText().toString();
+        password = etPassword.getText().toString();
+        switch (v.getId()) {
+            case R.id.btn_login:
+                if (email.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(Login.this, "Enter your Email or Password", Toast.LENGTH_SHORT).show();
+                }
+                mAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(Login.this, "Login Success", Toast.LENGTH_SHORT).show();
 
-        }
-
-        if (v == btnDaftar) {
-
-        }
-
-        if (v == btnForgotPassword) {
+                                } else {
+                                    Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                break;
 
         }
     }
