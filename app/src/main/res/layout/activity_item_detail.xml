@@ -11,10 +11,11 @@
         android:id="@+id/tv_detail_itemname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_itemdetail_item"
         tools:text="Nama Barang" />
 
     <TextView
@@ -55,10 +56,19 @@
         android:id="@+id/btn_detail_edititem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:tint="@color/yellow_secondary"
         app:layout_constraintBottom_toBottomOf="@+id/tv_detail_itemname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_detail_itemname"
-        app:srcCompat="@drawable/round_edit_24" />
+        app:srcCompat="@drawable/round_edit_24"
+        app:tint="@color/yellow_secondary" />
+
+    <ImageView
+        android:id="@+id/image_itemdetail_item"
+        android:layout_width="0dp"
+        android:layout_height="256dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
