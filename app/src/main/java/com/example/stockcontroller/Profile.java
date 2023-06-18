@@ -12,6 +12,7 @@ public class Profile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_StockController);
         setContentView(R.layout.activity_profile);
 
         tvNama = findViewById(R.id.tv_profile_namauser);

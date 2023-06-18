@@ -17,6 +17,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_StockController);
         setContentView(R.layout.activity_login);
 
         etEmail = findViewById(R.id.et_login_email);

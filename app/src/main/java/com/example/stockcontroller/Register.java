@@ -17,6 +17,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_StockController);
         setContentView(R.layout.activity_register);
 
         etNama = findViewById(R.id.et_signin_name);

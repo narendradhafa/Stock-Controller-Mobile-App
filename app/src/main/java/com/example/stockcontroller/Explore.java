@@ -14,6 +14,7 @@ public class Explore extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_StockController);
         setContentView(R.layout.activity_explore);
 
         btnDaftar = findViewById(R.id.btn_explore_signin);

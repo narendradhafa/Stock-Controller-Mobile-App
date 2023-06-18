@@ -19,6 +19,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_StockController);
         setContentView(R.layout.activity_dashboard);
 
         btnAddItem = findViewById(R.id.btn_dashboard_additem);
@@ -36,10 +37,13 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         if (v == btnAddItem) {
-
+            // pindah ke activity add item
+            Intent intent = new Intent(Dashboard.this, AddItem.class);
+            startActivity(intent);
         }
 
         if (v == imgProfile) {
+            // pindah ke activity profile
             Intent intent = new Intent(Dashboard.this, Profile.class);
             startActivity(intent);
         }
