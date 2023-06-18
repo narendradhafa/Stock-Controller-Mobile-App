@@ -57,6 +57,7 @@
         app:srcCompat="@drawable/round_sort_24" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_dashboard_barang"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="6dp"
