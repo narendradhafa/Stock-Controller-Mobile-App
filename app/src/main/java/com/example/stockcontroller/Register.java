@@ -23,10 +23,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class Register extends AppCompatActivity {
 
-    private EditText etNama, etEmail, etTelepon, etPassword;
-    private Button btnDaftar;
-    private TextView btnMasuk;
-    private FirebaseAuth mAuth;
+    EditText etNama, etEmail, etTelepon, etPassword;
+    Button btnDaftar;
+    TextView btnMasuk;
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
 
 
     @Override
@@ -35,21 +36,32 @@ public class Register extends AppCompatActivity {
         setTheme(R.style.Theme_StockController);
         setContentView(R.layout.activity_register);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+
         etNama = (EditText) findViewById(R.id.et_signin_name);
         etEmail = (EditText) findViewById(R.id.et_signin_email);
         etTelepon = (EditText) findViewById(R.id.et_signin_notelp);
         etPassword = (EditText) findViewById(R.id.et_signin_password);
 
         btnDaftar = (Button) findViewById(R.id.btnSignIn);
-        btnMasuk  = (TextView) findViewById(R.id.tv_signin_login);
+        btnMasuk = (TextView) findViewById(R.id.tv_signin_login);
 
-        mAuth = FirebaseAuth.getInstance();
 
-        btnDaftar.setOnClickListener(new View.OnClickListener() {
+        btnMasuk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Register.this, Login.class);
                 startActivity(intent);
+                finish();
+            }
+        });
+
+        btnDaftar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = etEmail.getText().toString();
+                String password = etPassword.getText().toString();
+                signUp(email, password);
             }
         });
     }
@@ -57,21 +69,23 @@ public class Register extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        updateUI(currentUser);
     }
 
     public void signUp(String email, String password) {
         if (!validateForm()) {
             return;
         }
-        mAuth.createUserWithEmailAndPassword(email, password)
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
 
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                            updateUI(user);
                             Toast.makeText(Register.this, user.toString(), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(Register.this, Login.class);
                             startActivity(intent);
@@ -79,32 +93,10 @@ public class Register extends AppCompatActivity {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(Register.this, task.getException().toString(),
                                     Toast.LENGTH_SHORT).show();
+                            updateUI(null);
                         }
                     }
                 });
-    }
-
-    public void login(String email, String password) {
-        if (!validateForm()) {
-            return;
-        }
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                            @Override
-
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d(TAG, "signInWithEmail:success");
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    Toast.makeText(Register.this, user.toString(), Toast.LENGTH_SHORT).show();
-
-                                } else {
-                                    Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                    Toast.makeText(Register.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-
-                                }
-                            }
-                        });
     }
     private boolean validateForm() {
         boolean result = true;
@@ -133,5 +125,3 @@ public class Register extends AppCompatActivity {
         }
     }
 }
-
-

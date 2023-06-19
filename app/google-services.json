@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "208349170350",
-    "project_id": "stock-controller-5774a",
-    "storage_bucket": "stock-controller-5774a.appspot.com"
+    "project_number": "160469438167",
+    "project_id": "stock-controller-64fbf",
+    "storage_bucket": "stock-controller-64fbf.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:208349170350:android:1fa12df955e065cd3ffb3f",
+        "mobilesdk_app_id": "1:160469438167:android:244ebccb316ab67660ea92",
         "android_client_info": {
           "package_name": "com.example.stockcontroller"
         }
       },
       "oauth_client": [
         {
-          "client_id": "208349170350-28evkqam0vqbas2vj9r26q1ro47d5rl6.apps.googleusercontent.com",
+          "client_id": "160469438167-ukmdpgg35prd1s56u91fh464bpvo3d7m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.stockcontroller",
+            "certificate_hash": "eee2d257859be69bafd27731a870583733d7a787"
+          }
+        },
+        {
+          "client_id": "160469438167-kr0ohr2qjn4giq2uqdgsjpnr2kfj2hhp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDVRHlSbzrwFsITaCT0CfIiY56VeYX7k94"
+          "current_key": "AIzaSyBDjFEX0PIq0HfoFgaJoTyzN_C3OmmfCKk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "208349170350-28evkqam0vqbas2vj9r26q1ro47d5rl6.apps.googleusercontent.com",
+              "client_id": "160469438167-kr0ohr2qjn4giq2uqdgsjpnr2kfj2hhp.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
