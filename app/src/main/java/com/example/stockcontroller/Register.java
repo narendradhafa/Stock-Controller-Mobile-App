@@ -21,7 +21,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Register extends AppCompatActivity implements View.OnClickListener {
+public class Register extends AppCompatActivity {
 
     private EditText etNama, etEmail, etTelepon, etPassword;
     private Button btnDaftar;
@@ -45,8 +45,13 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
         mAuth = FirebaseAuth.getInstance();
 
-        btnDaftar.setOnClickListener(this);
-        btnMasuk.setOnClickListener(this);
+        btnDaftar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Register.this, Login.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -55,12 +60,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         FirebaseUser currentUser = mAuth.getCurrentUser();
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.btnSignIn) {
-            signUp(etEmail.getText().toString(), etPassword.getText().toString());
-        }
-    }
     public void signUp(String email, String password) {
         if (!validateForm()) {
             return;
@@ -71,19 +70,15 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-// Sign in success, update UI with the signed - in user 's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            //updateUI(user);//*
                             Toast.makeText(Register.this, user.toString(), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(Register.this, Login.class);
                             startActivity(intent);
                         } else {
-// If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(Register.this, task.getException().toString(),
                                     Toast.LENGTH_SHORT).show();
-                            //* updateUI(null);//
                         }
                     }
                 });
@@ -94,19 +89,16 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             return;
         }
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new
-                        OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
 
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-// Sign in success, update UI with the signed - in user 's information
                                     Log.d(TAG, "signInWithEmail:success");
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     Toast.makeText(Register.this, user.toString(), Toast.LENGTH_SHORT).show();
 
                                 } else {
-// If sign in fails, display a message to the user.
                                     Log.w(TAG, "signInWithEmail:failure", task.getException());
                                     Toast.makeText(Register.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
 
