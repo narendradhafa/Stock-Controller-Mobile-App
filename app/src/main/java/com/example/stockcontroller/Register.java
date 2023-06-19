@@ -57,10 +57,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnSignIn:
-                signUp(etEmail.getText().toString(), etPassword.getText().toString());
-                break;
+        if (v.getId() == R.id.btnSignIn) {
+            signUp(etEmail.getText().toString(), etPassword.getText().toString());
         }
     }
     public void signUp(String email, String password) {

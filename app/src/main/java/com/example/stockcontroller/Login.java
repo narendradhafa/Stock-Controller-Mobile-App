@@ -46,25 +46,22 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         String email, password;
         email = etEmail.getText().toString();
         password = etPassword.getText().toString();
-        switch (v.getId()) {
-            case R.id.btn_login:
-                if (email.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(Login.this, "Enter your Email or Password", Toast.LENGTH_SHORT).show();
-                }
-                mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(Login.this, "Login Success", Toast.LENGTH_SHORT).show();
+        if (v.getId() == R.id.btn_login) {
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(Login.this, "Enter your Email or Password", Toast.LENGTH_SHORT).show();
+            }
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(Login.this, "Login Success", Toast.LENGTH_SHORT).show();
 
-                                } else {
-                                    Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                                }
+                            } else {
+                                Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                             }
-                        });
-                break;
-
+                        }
+                    });
         }
     }
 }
