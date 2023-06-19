@@ -2,49 +2,47 @@ package com.example.stockcontroller;
 
 public class ModelBarang {
 
-    private String nama_barang;
-    private String jum_barang;
-    private String satuan_barang;
-    private String harga_barang;
+    private String namaBarang;
+    private String jumlahBarang;
+    private String satuanBarang;
+    private String hargaBarang;
 
-
-
-    public ModelBarang() {
-        this.nama_barang = nama_barang;
-        this.jum_barang = jum_barang;
-        this.satuan_barang = satuan_barang;
-        this.harga_barang = harga_barang;
+    public ModelBarang(String namaBarang, String jumlahBarang, String satuanBarang, String hargaBarang) {
+        this.namaBarang = namaBarang;
+        this.jumlahBarang = jumlahBarang;
+        this.satuanBarang = satuanBarang;
+        this.hargaBarang = hargaBarang;
     }
 
-    public String getNama_barang() {
-        return nama_barang;
+    public String getNamaBarang() {
+        return namaBarang;
     }
 
-    public void setNama_barang(String nama_barang) {
-        this.nama_barang = nama_barang;
+    public void setNamaBarang(String namaBarang) {
+        this.namaBarang = namaBarang;
     }
 
-    public String getJum_barang() {
-        return jum_barang;
+    public String getJumlahBarang() {
+        return jumlahBarang;
     }
 
-    public void setJum_barang(String jum_barang) {
-        this.jum_barang = jum_barang;
+    public void setJumlahBarang(String jumlahBarang) {
+        this.jumlahBarang = jumlahBarang;
     }
 
-    public String getSatuan_barang() {
-        return satuan_barang;
+    public String getSatuanBarang() {
+        return satuanBarang;
     }
 
-    public void setSatuan_barang(String satuan_barang) {
-        this.satuan_barang = satuan_barang;
+    public void setSatuanBarang(String satuanBarang) {
+        this.satuanBarang = satuanBarang;
     }
 
-    public String getHarga_barang() {
-        return harga_barang;
+    public String getHargaBarang() {
+        return hargaBarang;
     }
 
-    public void setHarga_barang(String harga_barang) {
-        this.harga_barang = harga_barang;
+    public void setHargaBarang(String hargaBarang) {
+        this.hargaBarang = hargaBarang;
     }
 }
