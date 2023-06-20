@@ -16,6 +16,6 @@ public class Profile extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         tvNama = findViewById(R.id.tv_profile_namauser);
-        tvId = findViewById(R.id.tv_profile_id);
+        tvId = findViewById(R.id.tv_profile_telpon);
     }
 }

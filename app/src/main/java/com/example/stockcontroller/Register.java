@@ -43,7 +43,7 @@ public class Register extends AppCompatActivity {
         etTelepon = (EditText) findViewById(R.id.et_signin_notelp);
         etPassword = (EditText) findViewById(R.id.et_signin_password);
 
-        btnDaftar = (Button) findViewById(R.id.btnSignIn);
+        btnDaftar = (Button) findViewById(R.id.btnSignUp);
         btnMasuk = (TextView) findViewById(R.id.tv_signin_login);
 
 
@@ -61,43 +61,31 @@ public class Register extends AppCompatActivity {
             public void onClick(View view) {
                 String email = etEmail.getText().toString();
                 String password = etPassword.getText().toString();
-                signUp(email, password);
+//                signUp(email, password);
+
+                firebaseAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d(TAG, "createUserWithEmail:success");
+                                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                                    updateUI(user);
+                                    Toast.makeText(Register.this, user.toString(), Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(Register.this, Login.class);
+                                    startActivity(intent);
+                                } else {
+                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                    Toast.makeText(Register.this, task.getException().toString(),
+                                            Toast.LENGTH_SHORT).show();
+                                    updateUI(null);
+                                }
+                            }
+                        });
             }
         });
     }
 
-    @Override
-    protected void onStart(){
-        super.onStart();
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        updateUI(currentUser);
-    }
-
-    public void signUp(String email, String password) {
-        if (!validateForm()) {
-            return;
-        }
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
-                            updateUI(user);
-                            Toast.makeText(Register.this, user.toString(), Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(Register.this, Login.class);
-                            startActivity(intent);
-                        } else {
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(Register.this, task.getException().toString(),
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
-                    }
-                });
-    }
     private boolean validateForm() {
         boolean result = true;
         if (TextUtils.isEmpty(etEmail.getText().toString())) {

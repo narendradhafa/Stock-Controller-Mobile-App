@@ -17,7 +17,7 @@ public class Explore extends AppCompatActivity implements View.OnClickListener {
         setTheme(R.style.Theme_StockController);
         setContentView(R.layout.activity_explore);
 
-        btnDaftar = findViewById(R.id.btn_explore_signin);
+        btnDaftar = findViewById(R.id.btn_explore_register);
         btnMasuk  = findViewById(R.id.btn_explore_login);
 
         btnDaftar.setOnClickListener(this);

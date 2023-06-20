@@ -15,27 +15,6 @@
         android:theme="@style/splashScreenTheme"
         tools:targetApi="31">
         <activity
-            android:name=".Profile"
-            android:exported="false" />
-        <activity
-            android:name=".AddItem"
-            android:exported="false" />
-        <activity
-            android:name=".EditItem"
-            android:exported="false" />
-        <activity
-            android:name=".ItemDetail"
-            android:exported="false" />
-        <activity
-            android:name=".Dashboard"
-            android:exported="false" />
-        <activity
-            android:name=".Register"
-            android:exported="false" />
-        <activity
-            android:name=".Login"
-            android:exported="false" />
-        <activity
             android:name=".Explore"
             android:exported="true">
             <intent-filter>
@@ -44,6 +23,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Register"
+            android:exported="true" />
+        <activity
+            android:name=".Login"
+            android:exported="true" />
+        <activity
+        android:name=".Profile"
+        android:exported="false" />
+        <activity
+        android:name=".AddItem"
+        android:exported="false" />
+        <activity
+        android:name=".EditItem"
+        android:exported="false" />
+        <activity
+        android:name=".ItemDetail"
+        android:exported="false" />
+        <activity
+        android:name=".Dashboard"
+        android:exported="false" />
     </application>
 
 </manifest>

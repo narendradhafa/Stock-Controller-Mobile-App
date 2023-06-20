@@ -41,7 +41,7 @@
         app:srcCompat="@drawable/onlineshopping" />
 
     <Button
-        android:id="@+id/btn_explore_signin"
+        android:id="@+id/btn_explore_register"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -59,9 +59,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:backgroundTint="@color/yellow_secondary"
         android:padding="12dp"
         android:text="Masuk"
-        android:backgroundTint="@color/yellow_secondary"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
