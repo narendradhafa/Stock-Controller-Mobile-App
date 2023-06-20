@@ -33,9 +33,9 @@
         android:layout_height="wrap_content"
         android:padding="2dp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_dashboard_namagudang"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_dashboard_namagudang"
-        app:srcCompat="@drawable/outline_account_circle_24"
-        tools:layout_editor_absoluteX="321dp" />
+        app:srcCompat="@drawable/outline_account_circle_24" />
 
     <TextView
         android:id="@+id/tv_dashboard_itemcount"
