@@ -20,6 +20,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Register extends AppCompatActivity {
 
@@ -63,27 +66,59 @@ public class Register extends AppCompatActivity {
                 String password = etPassword.getText().toString();
 //                signUp(email, password);
 
-                firebaseAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Log.d(TAG, "createUserWithEmail:success");
                                     FirebaseUser user = firebaseAuth.getCurrentUser();
-                                    updateUI(user);
+                                    if (user!=null) {
+                                        UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
+                                                .setDisplayName(etNama.getText().toString())
+                                                .build();
+                                        user.updateProfile(request).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users");
+                                                    String userId = user.getUid();
+
+                                                    User userr = new User();
+                                                    userr.setNama(etNama.getText().toString());
+                                                    userr.setEmail(etEmail.getText().toString());
+                                                    userr.setPhone(etTelepon.getText().toString());
+
+                                                    userRef.child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()) {
+                                                                reload();
+                                                            } else {
+                                                                Toast.makeText(getApplicationContext(), "Gagal menyimpan data pengguna ke database", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }
+                                                    });
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(), "Gagal memperbarui profil pengguna", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+
+                                    }
                                     Toast.makeText(Register.this, user.toString(), Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(Register.this, Login.class);
-                                    startActivity(intent);
                                 } else {
                                     Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                     Toast.makeText(Register.this, task.getException().toString(),
                                             Toast.LENGTH_SHORT).show();
-                                    updateUI(null);
                                 }
                             }
                         });
             }
         });
+    }
+
+    private void reload(){
+        startActivity(new Intent(getApplicationContext(), Dashboard.class));
     }
 
     private boolean validateForm() {
@@ -102,14 +137,5 @@ public class Register extends AppCompatActivity {
         }
         return result;
     }
-
-    public void updateUI(FirebaseUser user) {
-        if (user != null) {
-            Intent intent = new Intent(Register.this, Login.class);
-            startActivity(intent);
-        } else {
-            Toast.makeText(Register.this, "Register First",
-                    Toast.LENGTH_SHORT).show();
-        }
-    }
+    
 }
