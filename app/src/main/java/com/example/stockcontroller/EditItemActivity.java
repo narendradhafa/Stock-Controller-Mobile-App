@@ -30,7 +30,7 @@ import com.imagekit.android.entity.UploadResponse;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-public class EditItem extends AppCompatActivity implements ImageKitCallback, View.OnClickListener {
+public class EditItemActivity extends AppCompatActivity implements ImageKitCallback, View.OnClickListener {
 
     private DatabaseReference databaseReference;
     private FirebaseAuth firebaseAuth;

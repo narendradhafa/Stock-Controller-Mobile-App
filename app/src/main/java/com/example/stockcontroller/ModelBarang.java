@@ -1,19 +1,26 @@
 package com.example.stockcontroller;
 
 public class ModelBarang {
-
+    private String id;
     private String namaBarang;
     private String jumlahBarang;
     private String satuanBarang;
     private String hargaBarang;
 
-    public ModelBarang(String namaBarang, String jumlahBarang, String satuanBarang, String hargaBarang) {
+    public ModelBarang(String id, String namaBarang, String jumlahBarang, String satuanBarang, String hargaBarang) {
+        this.id = id;
         this.namaBarang = namaBarang;
         this.jumlahBarang = jumlahBarang;
         this.satuanBarang = satuanBarang;
         this.hargaBarang = hargaBarang;
     }
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
     public String getNamaBarang() {
         return namaBarang;
     }

@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.imagekit.android.ImageKit;
 import com.imagekit.android.entity.TransformationPosition;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -75,13 +74,13 @@ public class AdapterBarang extends RecyclerView.Adapter<AdapterBarang.MyViewHold
                     "http://www.yourserver.com/auth"
             );
 
-            Picasso.get().load(ImageKit.Companion.getInstance()
+            ImageKit.Companion.getInstance()
                     .url(
                             namaBarang.toString().trim() + ".jpg",
                             TransformationPosition.QUERY
                     )
                     .aspectRatio(16, 9)
-                    .create()).into(imageItem);
+                    .create();
         }
     }
 }

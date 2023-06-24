@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.imagekit.android.ImageKit;
@@ -54,7 +55,7 @@ public class AddItem extends AppCompatActivity implements ImageKitCallback, View
         btnSimpan = findViewById(R.id.btn_add_save);
         imgItem = findViewById(R.id.image_additem_item);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance("https://stock-controller-64fbf-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
 
         ImageKit.Companion.init(
                 getApplicationContext(),
@@ -85,14 +86,22 @@ public class AddItem extends AppCompatActivity implements ImageKitCallback, View
     }
 
     public void insertItemFirebase() {
-        ModelBarang item = new ModelBarang(
-                etNamaBarang.getText().toString(),
-                etJumlah.getText().toString(),
-                etSatuanJumlah.getText().toString(),
-                etHargaSatuan.getText().toString()
-        );
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        String userId = firebaseAuth.getUid();
 
-        mDatabase.child("item").push().setValue(item);
+        if (userId != null) {
+            String dataId = mDatabase.child("item").child(userId).push().getKey();
+
+            ModelBarang item = new ModelBarang(
+                    dataId,
+                    etNamaBarang.getText().toString(),
+                    etJumlah.getText().toString(),
+                    etSatuanJumlah.getText().toString(),
+                    etHargaSatuan.getText().toString()
+            );
+
+            mDatabase.child("item").child(userId).child(dataId).setValue(item);
+        }
     }
 
     public void selectImage() {
@@ -107,7 +116,7 @@ public class AddItem extends AppCompatActivity implements ImageKitCallback, View
 
         loadingDialog = new AlertDialog.Builder(this).setMessage("Gambar sedang diupload...").setCancelable(false).show();
 
-        String filename = etNamaBarang.getText().toString().trim() + ".jpg"; // habis ini diubah jadi id firebase
+        String filename = "tes.jpg"; // habis ini diubah jadi id firebase
         ImageKit.Companion.getInstance().uploader().upload(
                 bitmap,
                 filename,
@@ -131,7 +140,6 @@ public class AddItem extends AppCompatActivity implements ImageKitCallback, View
                 InputStream imageStream = getContentResolver().openInputStream(data.getData());
                 Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                 bitmap = selectedImage;
-                imgItem.setImageBitmap(bitmap);
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
