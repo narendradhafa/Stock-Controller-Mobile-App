@@ -9,28 +9,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Register extends AppCompatActivity {
 
     EditText etNama, etEmail, etTelepon, etPassword;
     Button btnDaftar;
     TextView btnMasuk;
-    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference databaseReference;
 
 
     @Override
@@ -40,6 +38,9 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase
+                .getInstance("https://stock-controller-64fbf-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .getReference();
 
         etNama = (EditText) findViewById(R.id.et_signin_name);
         etEmail = (EditText) findViewById(R.id.et_signin_email);
@@ -49,76 +50,59 @@ public class Register extends AppCompatActivity {
         btnDaftar = (Button) findViewById(R.id.btnSignUp);
         btnMasuk = (TextView) findViewById(R.id.tv_signin_login);
 
-
-        btnMasuk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Register.this, Login.class);
-                startActivity(intent);
-                finish();
-            }
+        btnMasuk.setOnClickListener(view -> {
+            Intent intent = new Intent(Register.this, Login.class);
+            startActivity(intent);
+            finish();
         });
 
-        btnDaftar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String email = etEmail.getText().toString();
-                String password = etPassword.getText().toString();
-//                signUp(email, password);
+        btnDaftar.setOnClickListener(view -> {
+            String email = etEmail.getText().toString();
+            String password = etPassword.getText().toString();
 
-                firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d(TAG, "createUserWithEmail:success");
-                                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                                    if (user!=null) {
-                                        UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
-                                                .setDisplayName(etNama.getText().toString())
-                                                .build();
-                                        user.updateProfile(request).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users");
-                                                    String userId = user.getUid();
-
-                                                    User userr = new User();
-                                                    userr.setNama(etNama.getText().toString());
-                                                    userr.setEmail(etEmail.getText().toString());
-                                                    userr.setPhone(etTelepon.getText().toString());
-
-                                                    userRef.child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                            if (task.isSuccessful()) {
-                                                                reload();
-                                                            } else {
-                                                                Toast.makeText(getApplicationContext(), "Gagal menyimpan data pengguna ke database", Toast.LENGTH_SHORT).show();
-                                                            }
-                                                        }
-                                                    });
-                                                } else {
-                                                    Toast.makeText(getApplicationContext(), "Gagal memperbarui profil pengguna", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
-
-                                    }
-                                    Toast.makeText(Register.this, user.toString(), Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                    Toast.makeText(Register.this, task.getException().toString(),
-                                            Toast.LENGTH_SHORT).show();
-                                }
+            firebaseAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "createUserWithEmail:success");
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                            if (user != null) {
+                                uploadDataToDatabase(user.getUid());
+                            } else {
+                                Toast.makeText(Register.this, "Register First", Toast.LENGTH_SHORT).show();
                             }
-                        });
-            }
+
+                        } else {
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(Register.this, task.getException().toString(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                    });
         });
     }
 
-    private void reload(){
-        startActivity(new Intent(getApplicationContext(), Dashboard.class));
+    private void uploadDataToDatabase(String id) {
+        String name = etNama.getText().toString();
+        String email = etEmail.getText().toString();
+        String phone = etTelepon.getText().toString();
+
+        User newUser = new User(
+                name,
+                email,
+                phone
+        );
+
+        databaseReference.child("users").child(id).setValue(newUser)
+                .addOnSuccessListener(v -> {
+                    Toast.makeText(getApplicationContext(), "Akun berhasil didaftarkan", Toast.LENGTH_LONG).show();
+                    navigateToLogin();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("Error upload", e.toString());
+                    Toast.makeText(getApplicationContext(), "Gagal menyimpan data pengguna", Toast.LENGTH_LONG).show();
+                });
     }
 
     private boolean validateForm() {
@@ -137,5 +121,23 @@ public class Register extends AppCompatActivity {
         }
         return result;
     }
-    
+
+    private void navigateToLogin(){
+        Intent intent = new Intent(Register.this, Login.class);
+        startActivity(intent);
+    }
+
+    private void reload(){
+        startActivity(new Intent(getApplicationContext(), Dashboard.class));
+    }
+
+    public void updateUI(FirebaseUser user) {
+        if (user != null) {
+            Intent intent = new Intent(Register.this, Login.class);
+            startActivity(intent);
+        } else {
+            Toast.makeText(Register.this, "Register First",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
 }
