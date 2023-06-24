@@ -107,7 +107,7 @@ public class AddItem extends AppCompatActivity implements ImageKitCallback, View
 
         loadingDialog = new AlertDialog.Builder(this).setMessage("Gambar sedang diupload...").setCancelable(false).show();
 
-        String filename = "tes.jpg"; // habis ini diubah jadi id firebase
+        String filename = etNamaBarang.getText().toString().trim() + ".jpg"; // habis ini diubah jadi id firebase
         ImageKit.Companion.getInstance().uploader().upload(
                 bitmap,
                 filename,
@@ -131,6 +131,7 @@ public class AddItem extends AppCompatActivity implements ImageKitCallback, View
                 InputStream imageStream = getContentResolver().openInputStream(data.getData());
                 Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                 bitmap = selectedImage;
+                imgItem.setImageBitmap(bitmap);
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

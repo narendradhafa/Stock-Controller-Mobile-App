@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ public class EditItem extends AppCompatActivity implements ImageKitCallback, Vie
 
     private ImageView imageItem;
     private Button btnSimpan, btnHapus;
+    private EditText etNamaBarang, etJumlah, etSatuanJumlah, etHargaBarang;
 
     private AlertDialog uploadResultDialog;
     private AlertDialog loadingDialog;
@@ -43,6 +45,11 @@ public class EditItem extends AppCompatActivity implements ImageKitCallback, Vie
         imageItem = findViewById(R.id.image_edititem_item);
         btnSimpan = findViewById(R.id.btn_edit_save);
         btnHapus  = findViewById(R.id.btn_edit_delete);
+
+        etNamaBarang = findViewById(R.id.et_edit_namabarang);
+        etJumlah = findViewById(R.id.et_edit_jumlah);
+        etSatuanJumlah = findViewById(R.id.et_edit_satuan);
+        etHargaBarang = findViewById(R.id.et_edit_harga);
 
         imageItem.setOnClickListener(this);
 
@@ -84,6 +91,7 @@ public class EditItem extends AppCompatActivity implements ImageKitCallback, Vie
                 InputStream imageStream = getContentResolver().openInputStream(data.getData());
                 Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                 bitmap = selectedImage;
+                imageItem.setImageBitmap(bitmap);
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -106,7 +114,7 @@ public class EditItem extends AppCompatActivity implements ImageKitCallback, Vie
 
         loadingDialog = new AlertDialog.Builder(this).setMessage("Gambar sedang diupload...").setCancelable(false).show();
 
-        String filename = "tes.jpg"; // habis ini diubah jadi id firebase
+        String filename = etNamaBarang.getText().toString().trim() + ".jpg";
         ImageKit.Companion.getInstance().uploader().upload(
                 bitmap,
                 filename,
